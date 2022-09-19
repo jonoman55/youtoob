@@ -1,0 +1,15 @@
+# TODO's
+- [ ] Create new GitHub repo, push code and add repo to GitHub desktop
+- [ ] Replace api calls using fetchFromAPI to youtubeApi
+- [ ] Fix Sidebar smaller desktop screen styling (scrollbar needed)
+- [ ] Replace all HTML5 elements with MUI components
+- [ ] Convert components to styled MUI components
+- [ ] Update Copyright Footer with link to my GitHub
+- [ ] Move state props to appSlice
+- [ ] Add Theme Switch to Navbar
+- [ ] Add save button to videos to download as mp4 or mp3 using ssyoutube api
+- [ ] Create helper utils where needed and update styling (e.g. better video cards)
+- [ ] Clean up code and any unused files
+- [ ] Add CSS Colors to MUI Theme Palette
+- [ ] Convert Videos to Grid and fix width in mobile
+- [ ] Deploy to Netlify
