@@ -19,6 +19,7 @@ import appReducer from '../reducers/appSlice';
 import themeReducer from '../reducers/themeSlice';
 import { youtubeApi } from '../apis/youtubeApi';
 import { convertApi } from './../apis/convertApi';
+import { ytDataV3Api } from './../apis/ytDataV3Api';
 
 type CombinedState = typeof rootReducer extends Reducer<infer U, any> ? U : never;
 
@@ -33,7 +34,8 @@ const persistConfig = {
     ],
     blacklist: [
         'youtubeApi',
-        'convertApi'
+        'convertApi',
+        'ytDataV3Api'
     ],
 };
 
@@ -42,6 +44,7 @@ const rootReducer = combineReducers({
     theme: themeReducer,
     [youtubeApi.reducerPath]: youtubeApi.reducer,
     [convertApi.reducerPath]: convertApi.reducer,
+    [ytDataV3Api.reducerPath]: ytDataV3Api.reducer
 });
 
 const persistedReducer: Reducer<any, AnyAction> = persistReducer(persistConfig, rootReducer);
@@ -62,6 +65,7 @@ export const store = configureStore({
     }).concat(
         youtubeApi.middleware,
         convertApi.middleware,
+        ytDataV3Api.middleware
     ),
 });
 
