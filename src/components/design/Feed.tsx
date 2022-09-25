@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Box, Stack, Typography, Theme } from "@mui/material";
 
 import { Sidebar } from "../layout";
@@ -8,7 +8,7 @@ import { fetchFromAPI } from "../../utils";
 import type { Video } from "../../types";
 
 export const Feed = () => {
-    const [selectedCategory, setSelectedCategory] = useState<string>("New");
+    const [selectedCategory, setSelectedCategory] = useState<string>('New');
     const [videos, setVideos] = useState<Video[] | null>(null);
 
     useEffect(() => {
@@ -17,6 +17,11 @@ export const Feed = () => {
             (data) => setVideos(data.items)
         );
     }, [selectedCategory]);
+
+    const videosOnly: Video[] = useMemo(
+        () => videos?.filter((video: Video) => !video?.id?.kind?.includes('playlist')) as Video[],
+        [videos]
+    );
 
     return (
         <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
@@ -40,7 +45,7 @@ export const Feed = () => {
                         {' '}Videos
                     </Box>
                 </Typography>
-                <Videos videos={videos} />
+                <Videos videos={videosOnly} />
             </Box>
         </Stack>
     );

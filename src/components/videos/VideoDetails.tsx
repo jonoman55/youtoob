@@ -44,8 +44,8 @@ export const VideoDetails = () => {
         );
     }, [id]);
 
-    const videosOnly: Video[] = useMemo(() =>
-        videos?.filter((video: Video) => !video?.id?.kind?.includes('playlist')) as Video[],
+    const videosOnly: Video[] = useMemo(
+        () => videos?.filter((video: Video) => !video?.id?.kind?.includes('playlist')) as Video[],
         [videos]
     );
 

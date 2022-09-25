@@ -36,6 +36,7 @@ const initialSate: Video = {
     },
 };
 
+// TODO : Add banner image
 export const ChannelDetails = () => {
     const { id } = useParams();
 
@@ -52,8 +53,8 @@ export const ChannelDetails = () => {
         fetchResults();
     }, [id]);
 
-    const videosOnly: Video[] = useMemo(() =>
-        videos?.filter((video: Video) => !video?.id?.kind?.includes('playlist')) as Video[],
+    const videosOnly: Video[] = useMemo(
+        () => videos?.filter((video: Video) => !video?.id?.kind?.includes('playlist')) as Video[],
         [videos]
     );
 

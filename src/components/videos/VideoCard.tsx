@@ -6,16 +6,12 @@ import { demoThumbnailUrl, demoVideoUrl, demoVideoTitle, demoChannelUrl, demoCha
 
 import type { Video } from "../../types";
 
-const imageUrl = (url: string | undefined): string => {
-    return url ? url : demoThumbnailUrl;
-};
-
 export const VideoCard = ({ video }: { video: Video }) => (
     <Card sx={{ width: { xs: '100%', sm: '358px', md: "320px", }, boxShadow: "none", borderRadius: 0 }}>
         <Link to={video?.id?.videoId ? `/video/${video?.id?.videoId}` : `/video/cV2gBU6hKfY`}>
             <CardMedia
                 component="img"
-                src={imageUrl(video?.snippet?.thumbnails?.high?.url)}
+                src={video?.snippet?.thumbnails?.high?.url || demoThumbnailUrl}
                 alt={video?.snippet?.title}
                 sx={{ width: { xs: '100%', sm: '358px' }, height: 180 }}
             />
