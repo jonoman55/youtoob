@@ -17,7 +17,7 @@ type Builder = EndpointBuilder<BaseQueryFn<string | FetchArgs, unknown, FetchBas
 const baseUrl: string = `${process.env.REACT_APP_CONVERT_API_BASE_URL}`;
 
 /**
- * YouTube API V3 - RapidAPI
+ * YouTube Convert API - ssyoutube
  */
 export const convertApi = createApi({
     reducerPath,

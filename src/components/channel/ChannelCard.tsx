@@ -11,8 +11,16 @@ interface ChannelCardProps {
     marginTop?: string;
 };
 
-const imageUrl = (url: string | undefined): string => {
-    return url ? url : demoProfilePicture;
+const imageUrl = (channelDetails: Video): string => {
+    if (channelDetails?.snippet?.title?.includes('JS Mastery'))
+        return channelDetails?.snippet?.thumbnails?.high?.url as string;
+    if (channelDetails?.snippet?.thumbnails?.default?.url)
+        return channelDetails?.snippet?.thumbnails?.default?.url as string;
+    if (channelDetails?.snippet?.thumbnails?.medium?.url)
+        return channelDetails?.snippet?.thumbnails?.medium?.url as string;
+    if (channelDetails?.snippet?.thumbnails?.high?.url)
+        return channelDetails?.snippet?.thumbnails?.high?.url as string;
+    return demoProfilePicture;
 };
 
 export const ChannelCard = ({ channelDetails, marginTop }: ChannelCardProps) => (
@@ -33,7 +41,7 @@ export const ChannelCard = ({ channelDetails, marginTop }: ChannelCardProps) => 
             <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', color: 'white' }}>
                 <CardMedia
                     component="img"
-                    src={imageUrl(channelDetails?.snippet?.thumbnails?.high?.url)}
+                    src={imageUrl(channelDetails)}
                     alt={`${channelDetails?.snippet?.title}`}
                     sx={(theme: Theme) => ({
                         mb: 2,

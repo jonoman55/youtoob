@@ -9,6 +9,11 @@ import { fetchFromAPI } from "../../utils";
 import type { Video } from "../../types";
 
 const initialSate: Video = {
+    brandingSettings: {
+        image: {
+            bannerExternalUrl: '',
+        }
+    },
     id: {
         channelId: '',
     },
@@ -18,7 +23,13 @@ const initialSate: Video = {
     snippet: {
         title: '',
         thumbnails: {
+            default: {
+                url: '',
+            },
             high: {
+                url: '',
+            },
+            medium: {
                 url: '',
             },
         },
@@ -49,12 +60,19 @@ export const ChannelDetails = () => {
     return (
         <Box minHeight="95vh">
             <Box>
-                <Box component="div" sx={{
-                    height: '300px',
-                    background: 'linear-gradient(90deg, rgba(0,238,247,1) 0%, rgba(206,3,184,1) 100%, rgba(0,212,255,1) 100%)',
-                    zIndex: 10,
-                }} />
-                <ChannelCard channelDetails={channelDetails} marginTop="-93px" />
+                <Box
+                    component="div"
+                    sx={{
+                        height: '300px',
+                        background: 'linear-gradient(90deg, rgba(0,238,247,1) 0%, rgba(206,3,184,1) 100%, rgba(0,212,255,1) 100%)',
+                        // backgroundImage: `url("${channelDetails.brandingSettings?.image?.bannerExternalUrl}")`,
+                        zIndex: 10,
+                    }}
+                />
+                <ChannelCard
+                    channelDetails={channelDetails}
+                    marginTop="-93px"
+                />
             </Box>
             <Box p={2} display="flex">
                 <Box sx={{ mr: { sm: '100px' } }} />

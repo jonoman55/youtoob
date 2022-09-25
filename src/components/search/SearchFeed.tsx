@@ -13,8 +13,9 @@ export const SearchFeed = () => {
     const [videos, setVideos] = useState<Video[] | null>(null);
 
     useEffect(() => {
-        fetchFromAPI(`search?part=snippet&q=${searchTerm}`)
-            .then((data) => setVideos(data.items));
+        fetchFromAPI(`search?part=snippet&q=${searchTerm}`).then(
+            (data) => setVideos(data.items)
+        );
     }, [searchTerm]);
 
     const videosOnly: Video[] = useMemo(() =>
