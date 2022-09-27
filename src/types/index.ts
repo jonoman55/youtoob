@@ -260,7 +260,6 @@ export type CustomPalette = {
     }
 };
 
-
 /*<--------------- YouTube Convert API Types --------------->*/
 /** 
  * Subtitle
