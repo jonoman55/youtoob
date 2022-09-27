@@ -1,5 +1,5 @@
 /**
- * Capitalize the first letter of a string
+ * @description Capitalize the first letter of a string
  * @param {string} text String to Capitalize
  * @returns {string} Capitalized string
  */
@@ -8,7 +8,7 @@ export const capitalizeFirstLetter = (text: string): string => {
 };
 
 /**
- * Lowercase the first letter of a string
+ * @description Lowercase the first letter of a string
  * @param {string} text String to Lowercase
  * @returns {string} Lowercased string
  */
@@ -17,7 +17,8 @@ export const lowercaseFirstLetter = (text: string): string => {
 };
 
 /**
- * Format Video Title
+ * @deprecated Use CSS Styles
+ * @description Format Video Title
  * @param {string} title Video Title 
  * @returns Formatted Video Title
  */
@@ -33,7 +34,6 @@ export const formatVideoTitle = (title: string): string => {
                 .replace(/[^a-zA-Z ]/g, '')
                 .trim()
             );
-            console.log('formatted title:', formatted);
             return formatted;
         }
         return slice;
@@ -42,7 +42,7 @@ export const formatVideoTitle = (title: string): string => {
 };
 
 /**
- * Format Subscriber Count
+ * @description Format Subscriber Count
  * @param {string} subscriberCount Subscriber Count
  * @returns Formatted Subscriber Count
  */
@@ -51,7 +51,7 @@ export const formatSubscriberCount = (subscriberCount: string) => {
 };
 
 /**
- * Format Count
+ * @description Format Count
  * @param {string} count Count
  * @returns Formatted Count
  */

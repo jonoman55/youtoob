@@ -25,7 +25,7 @@ export const SearchFeed = () => {
     const handleSearchResults = useCallback<() => void>(() => {
         if (!loading && searchResults) {
             setVideos(null);
-            console.log('search feed results:', searchResults);
+            // console.log('search feed results:', searchResults);
             setVideos(searchResults.items);
         }
     }, [searchResults, loading]);
@@ -36,13 +36,13 @@ export const SearchFeed = () => {
     );
 
     const videosOnly: Video[] = useMemo<Video[]>(
-        () => videos?.filter((video: Video) => !video?.id?.kind?.includes('playlist'))!,
+        () => videos?.filter((video: Video) => video?.id?.kind?.includes('video'))!,
         [videos]
     );
 
     return loading ? <Spinner /> : (
         <Box p={2} minHeight="95vh">
-            <Typography variant="h4" fontWeight={900} color="white" mb={3} ml={{ sm: "100px" }}>
+            <Typography variant="h4" sx={{ ml: { sm: '100px' }, mb: 3, fontWeight: 900, color: 'common.white' }}>
                 Search Results for{' '}
                 <Box component="span" sx={{ color: (theme: Theme) => theme.custom.palette.red }}>
                     {searchTerm}

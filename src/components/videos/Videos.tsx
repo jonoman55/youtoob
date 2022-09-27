@@ -1,8 +1,8 @@
 import { Stack, Box } from "@mui/material";
 
 import { VideoCard } from "./VideoCard";
-import { ChannelCard } from "../channel";
 import { Spinner } from "../design";
+import { ChannelCard } from "../channel";
 
 import type { Video } from "../../types";
 

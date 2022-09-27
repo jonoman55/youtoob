@@ -9,6 +9,7 @@ declare module '@mui/material/styles' {
     custom: {
       palette: {
         ytBlack: string;
+        ytGray: string;
         gray: string;
         lightGray: string;
         darkGray: string;
@@ -38,6 +39,7 @@ declare module '@mui/material/styles' {
     custom?: {
       palette?: {
         ytBlack?: string;
+        ytGray?: string;
         gray?: string;
         lightGray?: string;
         darkGray?: string;
@@ -140,6 +142,7 @@ const dark: PaletteColor = {
 const custom: CustomPalette = {
   palette: {
     ytBlack: '#1E1E1E',
+    ytGray: '#aaaaaa',
     gray: '#9e9e9e',
     lightGray: '#e3e3e3',
     darkGray: '#3d3d3d',

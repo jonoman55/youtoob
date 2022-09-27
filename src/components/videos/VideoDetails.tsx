@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo, useCallback } from "react";
 import { Link, useParams } from "react-router-dom";
 import ReactPlayer from "react-player";
-import { Typography, Box, Stack, IconButton } from "@mui/material";
+import { Theme, Typography, Box, Stack, IconButton } from "@mui/material";
 import {
     CheckCircle as CheckCircleIcon,
     Visibility as VisibilityIcon,
@@ -9,7 +9,7 @@ import {
     Download as DownloadIcon
 } from "@mui/icons-material";
 
-import { Videos } from "./";
+import { Videos } from "./Videos";
 import { Spinner } from "../design";
 import { useConvertMutation } from "../../apis/convertApi";
 import { useRelatedVideosQuery, useVideoDetailsQuery } from "../../apis/youtubeApi";
@@ -37,7 +37,6 @@ export const VideoDetails = () => {
     const { id } = useParams();
     const sm: boolean = useBreakpoints('sm', 'on');
 
-    // TODO : Implement video download dialog
     // eslint-disable-next-line
     const [downloadVideo, setDownloadVideo] = useState<VideoDownload>();
     // eslint-disable-next-line
@@ -62,7 +61,7 @@ export const VideoDetails = () => {
     const handleVideoDetails = useCallback<() => void>(() => {
         if (!videoDetailsLoading && videoDetailResults) {
             setVideoDetails(initialState);
-            console.log('video details results', videoDetailResults);
+            // console.log('video details results', videoDetailResults);
             setVideoDetails(videoDetailResults?.items[0]);
         }
     }, [videoDetailResults, videoDetailsLoading]);
@@ -83,7 +82,7 @@ export const VideoDetails = () => {
     const handleRelatedVideos = useCallback<() => void>(() => {
         if (!relatedVideosLoading && relatedVideoResults) {
             setVideos(null);
-            console.log('related videos results', relatedVideoResults);
+            // console.log('related videos results', relatedVideoResults);
             setVideos(relatedVideoResults?.items);
         }
     }, [relatedVideoResults, relatedVideosLoading]);
@@ -109,11 +108,13 @@ export const VideoDetails = () => {
         if (url) {
             try {
                 const obj = await download(url).unwrap();
-                console.log(result);
-                setDownloadVideo(obj);
-                setDialogOpen(true);
+                // console.log(result);
+                if (result) {
+                    setDownloadVideo(obj);
+                    setDialogOpen(true);
+                }
             } catch (error) {
-                console.log(result);
+                // console.log(result);
                 console.error(error);
             }
         }
@@ -143,19 +144,15 @@ export const VideoDetails = () => {
             <Stack direction={{ xs: "column", md: "row" }}>
                 <Box flex={1}>
                     <Box sx={{ width: "100%", position: "sticky", top: "86px" }}>
-                        <ReactPlayer
-                            className="react-player"
-                            url={videoLink}
-                            controls
-                        />
-                        <Typography color="white" variant="h5" fontWeight="bold" p={2}>
+                        <ReactPlayer className="react-player" url={videoLink} controls />
+                        <Typography variant="h5" sx={{ color: 'common.white', fontWeight: 'bold', p: 2 }}>
                             {title}
                         </Typography>
-                        <Stack direction="row" justifyContent="space-between" sx={{ color: "white" }} py={1} px={2} >
+                        <Stack direction="row" justifyContent="space-between" sx={{ py: 1, px: 2, color: "common.white" }}>
                             <Link to={`/channel/${channelId}`}>
-                                <Typography color="white" variant={`${!sm ? 'subtitle1' : 'h6'}`}>
+                                <Typography variant={`${!sm ? 'subtitle1' : 'h6'}`} sx={{ color: 'common.white' }}>
                                     {channelTitle}
-                                    <CheckCircleIcon sx={{ fontSize: "12px", color: "gray", ml: "5px" }} />
+                                    <CheckCircleIcon sx={{  ml: "5px", fontSize: "12px", color: (theme: Theme) => theme.custom.palette.ytGray }} />
                                 </Typography>
                             </Link>
                             <Stack direction="row" gap="20px" alignItems="center">
@@ -163,7 +160,9 @@ export const VideoDetails = () => {
                                     <IconButton sx={{ color: 'common.white' }} onClick={handleDownload(videoLink)}>
                                         <DownloadIcon />
                                     </IconButton>
-                                    <Typography variant="body1" sx={{ textTransform: 'uppercase', color: '#aaa', fontWeight: 500 }}>
+                                    <Typography variant="body1" sx={{
+                                        fontWeight: 500, textTransform: 'uppercase', color: (theme: Theme) => theme.custom.palette.ytGray
+                                    }}>
                                         Download
                                     </Typography>
                                 </Stack>

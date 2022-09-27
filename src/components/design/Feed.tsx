@@ -42,7 +42,7 @@ export const Feed = () => {
     const handleSearchResults = useCallback<() => void>(() => {
         if (!loading && searchResults) {
             setVideos(null);
-            console.log('home feed results', searchResults);
+            // console.log('home feed results', searchResults);
             setVideos(searchResults.items);
         }
     }, [searchResults, loading]);
@@ -65,12 +65,12 @@ export const Feed = () => {
                 borderRight: (theme: Theme) => `1px solid ${theme.custom.palette.darkGray}`
             }}>
                 <Sidebar selectedCategory={selectedCategory} />
-                <Typography className="copyright" variant="body2" sx={{ mt: 1.5, color: "common.white", }}>
+                <Typography className="copyright" variant="body2" sx={{ mt: 1.5, color: 'common.white' }}>
                     Copyright © {new Date().getFullYear()} JC Dev
                 </Typography>
             </Box>
-            <Box p={2} sx={{ overflowY: "auto", height: "90vh", flex: 2 }}>
-                <Typography variant="h4" fontWeight="bold" mb={2} sx={{ color: "white" }}>
+            <Box sx={{ p: 2, overflowY: "auto", height: "90vh", flex: 2 }}>
+                <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold', color: 'common.white' }}>
                     {selectedCategory}
                     <Box component="span" sx={{ color: (theme: Theme) => theme.custom.palette.red }}>
                         {' '}Videos

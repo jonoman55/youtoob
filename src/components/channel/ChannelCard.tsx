@@ -1,7 +1,13 @@
 import { Link } from 'react-router-dom';
-import { Box, CardContent, CardMedia, Typography, Theme } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import { Box, Typography } from '@mui/material';
 
+import {
+    CardContent,
+    CardMedia,
+    SubscriberCount,
+    VerifiedIcon,
+    channelCardStyles
+} from '../styled/Channel.styled';
 import { formatSubscriberCount } from '../../helpers';
 import { demoProfilePicture } from '../../constants';
 
@@ -11,6 +17,49 @@ interface ChannelCardProps {
     channelDetails: Video;
     marginTop?: string;
 };
+
+// const checkImage = (url: string): boolean => {
+//     let result: boolean = false;
+//     const request = new XMLHttpRequest();
+//     request.open("GET", url, true);
+//     request.send();
+//     request.onload = () => {
+//         // status = request.status;
+//         if (request.status === 200) {
+//             console.log("image exists");
+//             result = true;
+//         } else {
+//             console.log("image doesn't exist");
+//             result = false;
+//         }
+//     }
+//     return result;
+// };
+
+// CHECK IF IMAGE EXISTS
+// const checkIfImageExists = (url: string, callback: CallableFunction) => {
+//     const img = new Image();
+//     img.src = url;
+//     if (img.complete) {
+//         callback(true);
+//     } else {
+//         img.onload = () => {
+//             callback(true);
+//         };
+//         img.onerror = () => {
+//             callback(false);
+//         };
+//     }
+// };
+  
+// USAGE
+// checkIfImageExists('http://website/images/img.png', (exists: boolean) => {
+//     if (exists) {
+//         console.log('Image exists. ')
+//     } else {
+//         console.error('Image does not exists.')
+//     }
+// });
 
 const getImageUrl = (channelDetails: Video): string => {
     if (channelDetails?.snippet?.title?.includes('JS Mastery'))
@@ -25,41 +74,22 @@ const getImageUrl = (channelDetails: Video): string => {
 };
 
 export const ChannelCard = ({ channelDetails, marginTop }: ChannelCardProps) => (
-    <Box
-        sx={{
-            boxShadow: 'none',
-            borderRadius: '20px',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            width: { xs: '356px', md: '320px' },
-            height: '326px',
-            margin: 'auto',
-            marginTop,
-        }}
-    >
+    <Box sx={channelCardStyles(marginTop)}>
         <Link to={`/channel/${channelDetails?.id?.channelId}`}>
-            <CardContent sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', textAlign: 'center', color: 'white' }}>
+            <CardContent>
                 <CardMedia
-                    component="img"
+                    component='img'
                     src={getImageUrl(channelDetails)}
                     alt={`${channelDetails?.snippet?.title}`}
-                    sx={(theme: Theme) => ({
-                        mb: 2,
-                        borderRadius: '50%',
-                        height: '180px',
-                        width: '180px',
-                        border: `1px solid ${theme.custom.palette.lightGray}`
-                    })}
                 />
-                <Typography variant="h6">
+                <Typography variant='h6'>
                     {channelDetails?.snippet?.title}{' '}
-                    <CheckCircleIcon sx={{ fontSize: '14px', color: 'gray', ml: '5px' }} />
+                    <VerifiedIcon />
                 </Typography>
                 {channelDetails?.statistics?.subscriberCount && (
-                    <Typography sx={{ fontSize: '15px', fontWeight: 500, color: 'gray' }}>
-                        {formatSubscriberCount(channelDetails?.statistics?.subscriberCount!)} Subscribers
-                    </Typography>
+                    <SubscriberCount>
+                        {formatSubscriberCount(channelDetails?.statistics?.subscriberCount!)}{' '}Subscribers
+                    </SubscriberCount>
                 )}
             </CardContent>
         </Link>

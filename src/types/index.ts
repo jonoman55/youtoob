@@ -235,6 +235,7 @@ export type Category = {
 export type CustomPalette = {
     palette: {
         ytBlack: string;
+        ytGray: string;
         gray: string;
         lightGray: string;
         darkGray: string;

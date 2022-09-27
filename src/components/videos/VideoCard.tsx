@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Typography, Card, CardContent, CardMedia, Theme } from "@mui/material";
-import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { CheckCircle as CheckCircleIcon } from "@mui/icons-material";
 
 import { demoThumbnailUrl, demoVideoUrl, demoVideoTitle, demoChannelUrl, demoChannelTitle } from "../../constants";
 
@@ -39,7 +39,7 @@ export const VideoCard = ({ video }: { video: Video }) => (
                 <Typography
                     variant="subtitle2"
                     sx={{
-                        color: '#aaa',
+                        color: (theme: Theme) => theme.custom.palette.ytGray,
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
                         display: 'block',

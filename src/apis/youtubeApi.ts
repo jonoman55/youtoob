@@ -1,3 +1,8 @@
+/*
+    DOCS: 
+    https://rapidapi.com/ytdlfree/api/youtube-v31
+    https://developers.google.com/youtube/v3/docs
+*/
 import { BaseQueryFn, createApi, FetchArgs, fetchBaseQuery, FetchBaseQueryError, FetchBaseQueryMeta } from '@reduxjs/toolkit/query/react';
 import type { EndpointBuilder } from '@reduxjs/toolkit/dist/query/endpointDefinitions';
 import type { MaybePromise } from '@reduxjs/toolkit/dist/query/tsHelpers';

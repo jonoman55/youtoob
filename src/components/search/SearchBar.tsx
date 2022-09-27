@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import { Box, Paper, IconButton, Theme } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Search as SearchIcon } from '@mui/icons-material';
 
 export const SearchBar = () => {
     const navigate = useNavigate();
-    
+
     const [searchTerm, setSearchTerm] = useState<string>('');
 
     const handleOnSubmit = (e: React.SyntheticEvent<HTMLFormElement>) => {
