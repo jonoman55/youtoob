@@ -259,3 +259,75 @@ export type CustomPalette = {
         pink: string;
     }
 };
+
+
+/*<--------------- YouTube Convert API Types --------------->*/
+/** 
+ * Subtitle
+*/
+export type Subtitle = {
+    token: string;
+    language: string[];
+};
+
+/** 
+ * Meta Data
+*/
+export type Meta = {
+	title: string;
+	source: string;
+	duration: string;
+	tags: string;
+	subtitle: Subtitle;
+};
+
+/**
+ * Attributes
+ */
+export type Attr = {
+	title: string;
+	class: string;
+};
+
+/**
+ * Download URL
+ */
+export type Url = {
+    url: string;
+    name: string;
+    subname: string;
+    type: string;
+    ext: string;
+    downloadable: boolean;
+    quality: string;
+    qualityNumber: number;
+    contentLength: number;
+    videoCodec: string;
+    audioCodec: string;
+    audio: boolean;
+    no_audio: boolean;
+    itag: string;
+    isBundle: boolean;
+    isOtf: boolean;
+    isDrm: boolean;
+    filesize: number;
+    attr: Attr;
+};
+
+/**
+ * Converted Video Download
+ */
+export type VideoDownload = {
+    id: string;
+    cipher: boolean;
+    meta: Meta;
+    thumb: string;
+    itags: string[];
+    video_quality: string[];
+    url: Url[];
+    mp3Converter: string;
+    hosting: string;
+    sd?: any;
+    hd?: any;
+    timestamp: number;
+};

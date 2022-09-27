@@ -7,23 +7,27 @@ import type { MaybePromise } from '@reduxjs/toolkit/dist/query/tsHelpers';
  */
 const reducerPath: string = 'youtubeApi';
 
-/**
- * YouTube API V3 Query Params
- */
-type Params = {
-    part: string,
-    type: string,
-    maxResults: string | number;
-};
+// /**
+//  * YouTube API V3 Query Params
+//  */
+// type Params = {
+//     part: string;
+//     type: string;
+//     regionCode: string;
+//     order: string;
+//     maxResults: string | number;
+// };
 
-/**
- * Query Params
- */
-const params: Params = {
-    part: 'id,snippet',
-    type: 'video',
-    maxResults: 50
-};
+// /**
+//  * Query Params
+//  */
+// const params: Params = {
+//     part: 'id,snippet',
+//     type: 'video',
+//     regionCode: 'US',
+//     order: 'date',
+//     maxResults: 50
+// };
 
 /**
  * Create API Endpoint Builder Type
@@ -51,48 +55,67 @@ export const youtubeApi = createApi({
     endpoints: (builder: Builder) => ({
         searchVideos: builder.query<any, any>({
             query: (searchTerm: string): string | FetchArgs => ({
-                url: `/search?part=snippet&q=${searchTerm}`,
-                params,
-                responseHandler: async (res: Response) => await res.json(),
-            }),
-            transformResponse: (response) => response,
-        }),
-        searchCategoryVideos: builder.query<any, any>({
-            query: (selectedCategory: string): string | FetchArgs => ({
-                url: `/search?part=snippet&q=${selectedCategory}`,
-                params,
+                url: `/search`,
+                params: {
+                    q: `${searchTerm}`,
+                    part: 'snippet,id',
+                    regionCode: 'US',
+                    maxResults: '50',
+                    order: 'date'
+                },
                 responseHandler: async (res: Response) => await res.json(),
             }),
             transformResponse: (response) => response,
         }),
         videoDetails: builder.query<any, any>({
             query: (id: string | number): string | FetchArgs => ({
-                url: `/search?part=snippet&relatedToVideoId=${id}&type=video`,
-                params,
+                url: `/videos`,
+                params: {
+                    id: `${id}`,
+                    part: 'contentDetails,snippet,statistics',
+                    regionCode: 'US',
+                },
                 responseHandler: async (res: Response) => await res.json(),
             }),
             transformResponse: (response) => response,
         }),
-        videosById: builder.query<any, any>({
+        relatedVideos: builder.query<any, any>({
             query: (id: string | number): string | FetchArgs => ({
-                url: `/search?part=snippet&relatedToVideoId=${id}&type=video`,
-                params,
+                url: `/search`,
+                params: {
+                    relatedToVideoId: `${id}`,
+                    part: 'id,snippet',
+                    type: 'video',
+                    regionCode: 'US',
+                    maxResults: '50'
+                },
                 responseHandler: async (res: Response) => await res.json(),
             }),
             transformResponse: (response) => response,
         }),
         channelDetails: builder.query<any, any>({
             query: (id: string | number): string | FetchArgs => ({
-                url: `/search?channelId=${id}&part=snippet%2Cid&order=date`,
-                params,
+                url: `/channels`,
+                params: {
+                    id: `${id}`,
+                    part: 'snippet,statistics',
+                    regionCode: 'US',
+                    order: 'date'
+                },
                 responseHandler: async (res: Response) => await res.json(),
             }),
             transformResponse: (response) => response,
         }),
-        channelVideosById: builder.query<any, any>({
+        channelVideos: builder.query<any, any>({
             query: (id: string | number): string | FetchArgs => ({
-                url: `/channels?part=snippet&id=${id}`,
-                params,
+                url: `/search`,
+                params: {
+                    channelId: `${id}`,
+                    part: 'snippet,id',
+                    order: 'date',
+                    regionCode: 'US',
+                    maxResults: '50'
+                },
                 responseHandler: async (res: Response) => await res.json(),
             }),
             transformResponse: (response) => response,
@@ -105,9 +128,8 @@ export const youtubeApi = createApi({
  */
 export const {
     useSearchVideosQuery,
-    useSearchCategoryVideosQuery,
     useVideoDetailsQuery,
-    useVideosByIdQuery,
+    useRelatedVideosQuery,
     useChannelDetailsQuery,
-    useChannelVideosByIdQuery,
+    useChannelVideosQuery,
 } = youtubeApi;

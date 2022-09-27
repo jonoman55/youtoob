@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"; 
+import { Link } from "react-router-dom";
 import { Typography, Card, CardContent, CardMedia, Theme } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
@@ -18,12 +18,36 @@ export const VideoCard = ({ video }: { video: Video }) => (
         </Link>
         <CardContent sx={{ backgroundColor: (theme: Theme) => theme.custom.palette.ytBlack, height: '106px' }}>
             <Link to={video?.id?.videoId ? `/video/${video?.id?.videoId}` : demoVideoUrl} >
-                <Typography variant="subtitle1" fontWeight="bold" color="white">
-                    {video?.snippet?.title?.slice(0, 60) || demoVideoTitle.slice(0, 60)}
+                <Typography
+                    variant="subtitle1"
+                    sx={{
+                        color: 'common.white',
+                        fontWeight: 500,
+                        maxHeight: '4.4rem',
+                        overflow: 'hidden',
+                        WebkitLineClamp: 2,
+                        display: '-webkit-box',
+                        WebkitBoxOrient: 'vertical',
+                        textOverflow: 'ellipsis',
+                        whiteSpace: 'normal'
+                    }}
+                >
+                    {video?.snippet?.title! || demoVideoTitle.slice(0, 60)}
                 </Typography>
             </Link>
             <Link to={video?.snippet?.channelId ? `/channel/${video?.snippet?.channelId}` : demoChannelUrl} >
-                <Typography variant="subtitle2" color="gray">
+                <Typography
+                    variant="subtitle2"
+                    sx={{
+                        color: '#aaa',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        display: 'block',
+                        marginRight: '-0.1em',
+                        paddingRight: '0.1em',
+                        whiteSpace: 'pre'
+                    }}
+                >
                     {video?.snippet?.channelTitle || demoChannelTitle}
                     <CheckCircleIcon sx={{ fontSize: "12px", color: "gray", ml: "5px" }} />
                 </Typography>

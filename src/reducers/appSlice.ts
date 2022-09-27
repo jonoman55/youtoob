@@ -1,35 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AppState {
-    tabValue: number;
-    drawerOpen: boolean;
-    navbarAlignment: string;
-    showToolbar: boolean;
+    selectedCategory: string;
+    lastVisited: number;
 };
 
 const initialState: AppState = {
-    tabValue: 0,
-    drawerOpen: false,
-    navbarAlignment: 'Home',
-    showToolbar: true,
+    selectedCategory: 'New',
+    lastVisited: Date.now(),
 };
 
 const appSlice = createSlice({
     name: 'app',
     initialState,
     reducers: {
-        reset: () => initialState,
-        setTabValue: (state: AppState, action: PayloadAction<number>) => {
-            state.tabValue = action.payload;
+        reset: (state: AppState) => {
+            state = initialState;
         },
-        setDrawerOpen: (state: AppState, action: PayloadAction<boolean>) => {
-            state.drawerOpen = action.payload;
+        setSelectedCategory: (state: AppState, action: PayloadAction<string>) => {
+            state.selectedCategory = action.payload;
         },
-        setNavbarAlignment: (state: AppState, action: PayloadAction<string>) => {
-            state.navbarAlignment = action.payload;
-        },
-        setShowToolbar: (state: AppState, action: PayloadAction<boolean>) => {
-            state.showToolbar = action.payload;
+        setLastVisited: (state: AppState, action: PayloadAction<number>) => {
+            if (state.lastVisited !== action.payload) {
+                state.lastVisited = action.payload;
+            }
         },
     },
 });
