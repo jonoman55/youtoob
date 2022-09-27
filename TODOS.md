@@ -7,10 +7,12 @@
 - [x] Move state props to appSlice
 - [x] Add save button to videos to download as mp4 or mp3 using ssyoutube api
 - [x] Create helper utils where needed and update styling (e.g. better video cards)
+- [ ] Add category sections to the home Feed
 - [ ] Add response types to youtubeApi queries and update corresponding component state
 - [ ] Add and implement convert video for download Dialog
 - [ ] Add channel banner image to ChannelDetails
 - [ ] Add Theme Switch to Navbar
+- [ ] Filter out any non-US videos
 - [ ] Fix Channel image component
 - [ ] Convert components to styled MUI components
 - [ ] Convert all Stacks to Grids and fix Card widths in mobile
