@@ -9,9 +9,10 @@
 - [x] Create helper utils where needed and update styling (e.g. better video cards)
 - [ ] Add response types to youtubeApi queries and update corresponding component state
 - [ ] Add and implement convert video for download Dialog
-- [ ] Convert components to styled MUI components
-- [ ] Update Copyright Footer with link to my GitHub
+- [ ] Add channel banner image to ChannelDetails
 - [ ] Add Theme Switch to Navbar
+- [ ] Convert components to styled MUI components
 - [ ] Convert Videos to Grid and fix width in mobile
+- [ ] Update Copyright Footer with link to my GitHub
 - [ ] Clean up code and any unused files
 - [ ] Deploy to Netlify

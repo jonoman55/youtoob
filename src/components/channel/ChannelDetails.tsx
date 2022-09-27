@@ -37,7 +37,6 @@ const initialState: Video = {
     },
 };
 
-// TODO : Add banner image
 export const ChannelDetails = () => {
     const { id } = useParams();
 

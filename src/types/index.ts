@@ -11,7 +11,6 @@ export type Children = PropsWithChildren;
  */
 export type Lazy = LazyExoticComponent<() => JSX.Element>;
 
-// TODO : Update types in each component to match API calls
 /**
  * Video
  */
