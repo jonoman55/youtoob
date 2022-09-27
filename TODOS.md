@@ -7,6 +7,7 @@
 - [x] Move state props to appSlice
 - [x] Add save button to videos to download as mp4 or mp3 using ssyoutube api
 - [x] Create helper utils where needed and update styling (e.g. better video cards)
+- [ ] Add response types to youtubeApi queries and update corresponding component state
 - [ ] Add and implement convert video for download Dialog
 - [ ] Convert components to styled MUI components
 - [ ] Update Copyright Footer with link to my GitHub
