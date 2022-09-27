@@ -7,28 +7,6 @@ import type { MaybePromise } from '@reduxjs/toolkit/dist/query/tsHelpers';
  */
 const reducerPath: string = 'youtubeApi';
 
-// /**
-//  * YouTube API V3 Query Params
-//  */
-// type Params = {
-//     part: string;
-//     type: string;
-//     regionCode: string;
-//     order: string;
-//     maxResults: string | number;
-// };
-
-// /**
-//  * Query Params
-//  */
-// const params: Params = {
-//     part: 'id,snippet',
-//     type: 'video',
-//     regionCode: 'US',
-//     order: 'date',
-//     maxResults: 50
-// };
-
 /**
  * Create API Endpoint Builder Type
  */
