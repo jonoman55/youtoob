@@ -11,8 +11,9 @@
 - [ ] Add and implement convert video for download Dialog
 - [ ] Add channel banner image to ChannelDetails
 - [ ] Add Theme Switch to Navbar
+- [ ] Fix Channel image component
 - [ ] Convert components to styled MUI components
-- [ ] Convert Videos to Grid and fix width in mobile
+- [ ] Convert all Stacks to Grids and fix Card widths in mobile
 - [ ] Update Copyright Footer with link to my GitHub
 - [ ] Clean up code and any unused files
 - [ ] Deploy to Netlify
