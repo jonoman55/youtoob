@@ -1,30 +1,17 @@
-import { useEffect, lazy, Suspense } from 'react';
+import { lazy, Suspense } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { createTheme, CssBaseline, Theme, ThemeProvider } from '@mui/material';
+import { CssBaseline, Theme, ThemeProvider } from '@mui/material';
 
 import { SnackbarProvider } from './contexts/AlertContext';
 import { ErrorFallback, LoadingContainer } from './components';
-import { darkTheme, lightTheme } from './theme';
-import { useAppDispatch, useAppSelector } from './app/hooks';
-import { toggleTheme } from './reducers/themeSlice';
+import { useActiveTheme } from './hooks';
 
 const Routes: React.LazyExoticComponent<() => JSX.Element> = lazy(
     () => import('./routes')
 );
 
 const App = () => {
-    const dispatch = useAppDispatch();
-
-    const darkMode: boolean = useAppSelector((state) => state.theme.darkMode);
-
-    useEffect(() => {
-        if (!darkMode) {
-            dispatch(toggleTheme());
-        }
-    }, [dispatch, darkMode]);
-
-    const activeTheme: Theme = createTheme(darkMode ? darkTheme : lightTheme);
-    
+    const activeTheme: Theme = useActiveTheme();
     return (
         <ThemeProvider theme={activeTheme}>
             <SnackbarProvider>
