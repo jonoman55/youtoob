@@ -81,3 +81,11 @@ export const VideoDetailsStack = styled(MuiStack)(({ theme }) => ({
     padding: theme.spacing(1, 2),
     color: theme.palette.common.white,
 }));
+
+export const DownloadText = styled(MuiTypography)<{
+    component?: React.ReactNode;
+}>(({ theme }) => ({
+    fontWeight: 500,
+    textTransform: 'uppercase',
+    color: theme.custom.palette.ytGray,
+}));

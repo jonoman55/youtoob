@@ -1,13 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
+import type { VideoDownload } from '../types';
+
 interface AppState {
     selectedCategory: string;
     lastVisited: number;
+    dialogOpen: boolean;
+    videoDownload: VideoDownload | null;
 };
 
 const initialState: AppState = {
     selectedCategory: 'New',
     lastVisited: Date.now(),
+    dialogOpen: false,
+    videoDownload: null,
 };
 
 const appSlice = createSlice({
@@ -24,6 +30,12 @@ const appSlice = createSlice({
             if (state.lastVisited !== action.payload) {
                 state.lastVisited = action.payload;
             }
+        },
+        setDialogOpen: (state: AppState, action: PayloadAction<boolean>) => {
+            state.dialogOpen = action.payload;
+        },
+        setVideoDownload: (state: AppState, action: PayloadAction<VideoDownload | null>) => {
+            state.videoDownload = action.payload;
         },
     },
 });
