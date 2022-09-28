@@ -1,16 +1,19 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { Box, Stack, Typography, Theme } from "@mui/material";
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { Box, Stack, Theme, useTheme } from '@mui/material';
 
-import { Spinner } from "./Spinner";
-import { Sidebar } from "../layout";
-import { Videos } from "../videos";
-import { appActions } from "../../reducers/appSlice";
-import { useSearchVideosQuery } from "../../apis/youtubeApi";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { Spinner } from './Spinner';
+import { Copyright } from './Copyright';
+import { Sidebar } from '../layout';
+import { Videos } from '../videos';
+import { CategoryName, CategorySection, SelectedCategory, sidebarStyles } from '../styled/Feed.styled';
+import { appActions } from '../../reducers/appSlice';
+import { useSearchVideosQuery } from '../../apis/youtubeApi';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
-import type { Video } from "../../types";
+import type { Video } from '../../types';
 
 export const Feed = () => {
+    const theme: Theme = useTheme();
     const dispatch = useAppDispatch();
 
     const [videos, setVideos] = useState<Video[] | null>(null);
@@ -58,26 +61,20 @@ export const Feed = () => {
     );
 
     return loading ? <Spinner /> : (
-        <Stack sx={{ flexDirection: { sx: "column", md: "row" } }}>
-            <Box sx={{
-                height: { sx: "auto", md: "92vh" },
-                px: { sx: 0, md: 2 },
-                borderRight: (theme: Theme) => `1px solid ${theme.custom.palette.darkGray}`
-            }}>
+        <Stack sx={{ flexDirection: { sx: 'column', md: 'row' } }}>
+            <Box sx={sidebarStyles(theme)}>
                 <Sidebar selectedCategory={selectedCategory} />
-                <Typography className="copyright" variant="body2" sx={{ mt: 1.5, color: 'common.white' }}>
-                    Copyright © {new Date().getFullYear()} JC Dev
-                </Typography>
+                <Copyright />
             </Box>
-            <Box sx={{ p: 2, overflowY: "auto", height: "90vh", flex: 2 }}>
-                <Typography variant="h4" sx={{ mb: 2, fontWeight: 'bold', color: 'common.white' }}>
+            <CategorySection>
+                <SelectedCategory variant='h4'>
                     {selectedCategory}
-                    <Box component="span" sx={{ color: (theme: Theme) => theme.custom.palette.red }}>
+                    <CategoryName component='span'>
                         {' '}Videos
-                    </Box>
-                </Typography>
+                    </CategoryName>
+                </SelectedCategory>
                 <Videos videos={videosOnly} />
-            </Box>
+            </CategorySection>
         </Stack>
     );
 };

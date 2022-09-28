@@ -13,7 +13,7 @@ import { styled, Theme, CSSObject, SxProps } from '@mui/material/styles';
 /**
  * @description Create Channel Card Styles
  * @param {string | undefined} marginTop Margin Top CSS Prop
- * @returns MUI SxProps Theme
+ * @returns MUI SxProps Theme Styles
  */
 export const channelCardStyles = (marginTop: string | undefined): SxProps<Theme> => {
     return {

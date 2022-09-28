@@ -1,14 +1,16 @@
-import { useState, useEffect, useMemo, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { Theme, Typography, Box } from "@mui/material";
+import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useParams } from 'react-router-dom';
+import { Theme, Typography, Box, useTheme } from '@mui/material';
 
-import { Spinner } from "../design";
-import { Videos } from "../videos";
-import { useSearchVideosQuery } from "../../apis/youtubeApi";
+import { Spinner } from '../design';
+import { Videos } from '../videos';
+import { SearchTerm, searchResultStyles, SearchResults } from '../styled/Search.styled';
+import { useSearchVideosQuery } from '../../apis/youtubeApi';
 
-import type { Video } from "../../types";
+import type { Video } from '../../types';
 
 export const SearchFeed = () => {
+    const theme: Theme = useTheme();
     const { searchTerm } = useParams();
 
     const [videos, setVideos] = useState<Video[] | null>(null);
@@ -41,18 +43,18 @@ export const SearchFeed = () => {
     );
 
     return loading ? <Spinner /> : (
-        <Box p={2} minHeight="95vh">
-            <Typography variant="h4" sx={{ ml: { sm: '100px' }, mb: 3, fontWeight: 900, color: 'common.white' }}>
+        <SearchResults>
+            <Typography variant='h4' sx={searchResultStyles(theme)}>
                 Search Results for{' '}
-                <Box component="span" sx={{ color: (theme: Theme) => theme.custom.palette.red }}>
+                <SearchTerm component='span'>
                     {searchTerm}
-                </Box>
+                </SearchTerm>
                 {' '}videos
             </Typography>
-            <Box display="flex">
+            <Box display='flex'>
                 <Box sx={{ mr: { sm: '100px' } }} />
                 <Videos videos={videosOnly} />
             </Box>
-        </Box>
+        </SearchResults>
     );
 };

@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from "react-router-dom";
-import { Box, Paper, IconButton, Theme } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Box, Paper, Theme, useTheme } from '@mui/material';
 import { Search as SearchIcon } from '@mui/icons-material';
 
+import { IconButton, searchStyles } from '../styled/Search.styled';
+
 export const SearchBar = () => {
+    const theme: Theme = useTheme();
     const navigate = useNavigate();
 
     const [searchTerm, setSearchTerm] = useState<string>('');
@@ -16,30 +19,24 @@ export const SearchBar = () => {
         }
     };
 
+    const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSearchTerm(e.target.value);
+    };
+
     return (
         <Paper
-            component="form"
+            component='form'
             onSubmit={handleOnSubmit}
-            sx={(theme: Theme) => ({
-                backgroundColor: theme.custom.palette.ytBlack,
-                backgroundImage: 'none',
-                borderRadius: 20,
-                border: `1px solid ${theme.custom.palette.lightGray}`,
-                pl: 2,
-                boxShadow: 'none',
-                mr: { sm: 5 },
-            })}
+            sx={searchStyles(theme)}
         >
             <Box
-                component="input"
+                component='input'
                 className='search-bar'
                 placeholder='Search...'
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={handleOnChange}
             />
-            <IconButton type='submit' aria-label='search' sx={(theme: Theme) =>
-                ({ p: '10px', color: theme.custom.palette.red })}
-            >
+            <IconButton type='submit' aria-label='search'>
                 <SearchIcon />
             </IconButton>
         </Paper>

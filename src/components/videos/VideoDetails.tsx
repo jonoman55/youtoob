@@ -1,22 +1,17 @@
-import { useEffect, useState, useMemo, useCallback } from "react";
-import { Link, useParams } from "react-router-dom";
-import ReactPlayer from "react-player";
-import { Theme, Typography, Box, Stack, IconButton } from "@mui/material";
-import {
-    CheckCircle as CheckCircleIcon,
-    Visibility as VisibilityIcon,
-    ThumbUp as ThumbUpIcon,
-    Download as DownloadIcon
-} from "@mui/icons-material";
+import { useEffect, useState, useMemo, useCallback } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import ReactPlayer from 'react-player';
+import { Theme, Typography, Box, Stack, IconButton } from '@mui/material';
+import { Visibility as VisibilityIcon, ThumbUp as ThumbUpIcon, Download as DownloadIcon } from '@mui/icons-material';
 
-import { Videos } from "./Videos";
-import { Spinner } from "../design";
-import { useConvertMutation } from "../../apis/convertApi";
-import { useRelatedVideosQuery, useVideoDetailsQuery } from "../../apis/youtubeApi";
-import { useBreakpoints } from "../../hooks";
-import { formatCount } from "../../helpers";
+import { Videos } from './Videos';
+import { Spinner } from '../design';
+import { VerifiedIcon, VideoDetailsStack, VideoIcon, VideosBox, VideoTitle } from '../styled/Videos.styled';
+import { useConvertMutation } from '../../apis/convertApi';
+import { useRelatedVideosQuery, useVideoDetailsQuery } from '../../apis/youtubeApi';
+import { useBreakpoints } from '../../hooks';
 
-import { Video, VideoDownload } from "../../types";
+import { Video, VideoDownload } from '../../types';
 
 const initialState: Video = {
     id: {
@@ -140,51 +135,39 @@ export const VideoDetails = () => {
     } = videoDetails;
 
     return (
-        <Box minHeight="95vh">
-            <Stack direction={{ xs: "column", md: "row" }}>
+        <Box minHeight='95vh'>
+            <Stack direction={{ xs: 'column', md: 'row' }}>
                 <Box flex={1}>
-                    <Box sx={{ width: "100%", position: "sticky", top: "86px" }}>
-                        <ReactPlayer className="react-player" url={videoLink} controls />
-                        <Typography variant="h5" sx={{ color: 'common.white', fontWeight: 'bold', p: 2 }}>
-                            {title}
-                        </Typography>
-                        <Stack direction="row" justifyContent="space-between" sx={{ py: 1, px: 2, color: "common.white" }}>
+                    <Box sx={{ width: '100%', position: 'sticky', top: '86px' }}>
+                        <ReactPlayer className='react-player' url={videoLink} controls />
+                        <VideoTitle variant='h5'>{title}</VideoTitle>
+                        <VideoDetailsStack direction='row'>
                             <Link to={`/channel/${channelId}`}>
                                 <Typography variant={`${!sm ? 'subtitle1' : 'h6'}`} sx={{ color: 'common.white' }}>
                                     {channelTitle}
-                                    <CheckCircleIcon sx={{  ml: "5px", fontSize: "12px", color: (theme: Theme) => theme.custom.palette.ytGray }} />
+                                    <VerifiedIcon />
                                 </Typography>
                             </Link>
-                            <Stack direction="row" gap="20px" alignItems="center">
-                                <Stack direction="row" spacing={1} alignItems="center" justifyContent="center">
+                            <Stack direction='row' gap='20px' alignItems='center'>
+                                <Stack direction='row' spacing={1} alignItems='center' justifyContent='center'>
                                     <IconButton sx={{ color: 'common.white' }} onClick={handleDownload(videoLink)}>
                                         <DownloadIcon />
                                     </IconButton>
-                                    <Typography variant="body1" sx={{
+                                    <Typography variant='body1' sx={{
                                         fontWeight: 500, textTransform: 'uppercase', color: (theme: Theme) => theme.custom.palette.ytGray
                                     }}>
                                         Download
                                     </Typography>
                                 </Stack>
-                                <Stack direction="row" spacing={1}>
-                                    <VisibilityIcon />
-                                    <Typography variant="body1" sx={{ opacity: 0.7 }}>
-                                        {formatCount(viewCount as string)}
-                                    </Typography>
-                                </Stack>
-                                <Stack direction="row" spacing={1}>
-                                    <ThumbUpIcon />
-                                    <Typography variant="body1" sx={{ opacity: 0.7 }}>
-                                        {formatCount(likeCount as string)}
-                                    </Typography>
-                                </Stack>
+                                <VideoIcon count={viewCount!} icon={<VisibilityIcon />} />
+                                <VideoIcon count={likeCount!} icon={<ThumbUpIcon />} />
                             </Stack>
-                        </Stack>
+                        </VideoDetailsStack>
                     </Box>
                 </Box>
-                <Box px={2} py={{ md: 1, xs: 5 }} justifyContent="center" alignItems="center">
-                    <Videos videos={videosOnly} direction="column" />
-                </Box>
+                <VideosBox py={{ md: 1, xs: 5 }}>
+                    <Videos videos={videosOnly} direction='column' />
+                </VideosBox>
             </Stack>
         </Box>
     );
