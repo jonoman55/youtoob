@@ -1,13 +1,15 @@
 import React, { useMemo, forwardRef } from 'react';
-import { Box, Button, Dialog as MuiDialog, DialogActions, DialogContent, DialogContentText, DialogTitle as MuiDialogTitle, Slide, IconButton, Typography, Link } from '@mui/material';
+import { Box, Button, Stack, Slide, IconButton, Typography, Link } from '@mui/material';
+import { Dialog as MuiDialog, DialogActions, DialogContent as MuiDialogContent, DialogContentText, DialogTitle as MuiDialogTitle } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
 import { Close as CloseIcon, Download as DownloadIcon } from '@mui/icons-material';
 import { styled, Theme } from '@mui/material/styles';
 
 import { appActions } from '../../reducers/appSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import type { VideoDownload, Url } from '../../types';
+import type { VideoDownload, Url } from '../../types';;
 
+// TODO : Move styled components to Video.styled.tsx
 const Dialog = styled(MuiDialog)(({ theme }) => ({
     '& .MuiDialogContent-root': {
         padding: theme.spacing(2),
@@ -15,6 +17,15 @@ const Dialog = styled(MuiDialog)(({ theme }) => ({
     '& .MuiDialogActions-root': {
         padding: theme.spacing(1),
     },
+}));
+
+const DialogContent = styled(MuiDialogContent)(({
+    display: 'flex',
+    width: '100%',
+    height: 'auto',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center'
 }));
 
 interface DialogTitleProps {
@@ -30,12 +41,15 @@ const DialogTitle = ({ children, onClose, ...other }: DialogTitleProps) => (
             <IconButton
                 aria-label='close'
                 onClick={onClose}
-                sx={{
+                sx={(theme: Theme) => ({
                     position: 'absolute',
                     right: 8,
                     top: 8,
-                    color: (theme: Theme) => theme.palette.grey[500],
-                }}
+                    color: theme.palette.common.white,
+                    '&:hover': {
+                        color: theme.custom.palette.red
+                    }
+                })}
             >
                 <CloseIcon />
             </IconButton>
@@ -52,7 +66,11 @@ const Transition = forwardRef(function Transition(
     return <Slide direction='up' ref={ref} {...props} />;
 });
 
-export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDownload; }) => {
+interface VideoDownloadDialogProps {
+    videoDownload: VideoDownload;
+};
+
+export const VideoDownloadDialog = ({ videoDownload }: VideoDownloadDialogProps) => {
     const dispatch = useAppDispatch();
 
     const dialogOpen: boolean = useAppSelector((state) => state.app.dialogOpen);
@@ -67,6 +85,19 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
         dispatch(appActions.setVideoDownload(null));
     };
 
+    const formatQuality = (duration: string): string => {
+        if (duration.includes(':')) {
+            const split = duration.split(':');
+            return split[1];
+        }
+        return duration;
+    };
+
+    const videoQuality: string = useMemo<string>(
+        () => formatQuality(downloadUrl.attr.title),
+        [downloadUrl]
+    );
+
     return (
         <Box component='div'>
             <Dialog
@@ -76,10 +107,10 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
                 aria-describedby='video-download-dialog'
             >
                 <DialogTitle onClose={handleClose} id='video-download-dialog'>
-                    <Typography>Download Video</Typography>
+                    <Typography sx={{ color: 'primary.contrastText', fontSize: 18 }}>Download Video</Typography>
                 </DialogTitle>
-                <DialogContent dividers sx={{ display: 'flex', width: '100%', height: 'auto', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <DialogContentText id='video-download-dialog' paragraph gutterBottom sx={{ textAlign: 'center' }}>
+                <DialogContent dividers>
+                    <DialogContentText id='video-download-dialog' textAlign='center' color='text.secondary' paragraph gutterBottom>
                         {videoDownload.meta.title}
                     </DialogContentText>
                     <Box
@@ -89,11 +120,20 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
                         height={150}
                         width={225}
                     />
-                    <Typography component='span' sx={{ my: 2, textTransform: 'capitalize' }}>{downloadUrl.attr.title}{' '} P</Typography>
-                    <Typography component='span' gutterBottom>Duration:{' '}{videoDownload.meta.duration}</Typography>
+                    <Box component='div' sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
+                        <Stack direction='row' alignItems='center'>
+                            <Typography sx={{ my: 2, textTransform: 'capitalize' }}>
+                                Video Quality: {videoQuality}
+                            </Typography>
+                            <Typography>p</Typography>
+                        </Stack>
+                        <Typography gutterBottom>
+                            Duration:{' '}{videoDownload.meta.duration}
+                        </Typography>
+                    </Box>
                 </DialogContent>
                 <DialogActions>
-                    <Link component='a' href={`${downloadUrl.url}`} target='_blank' rel='noopener noreferrer' sx={{ textDecoration: 'none' }}>
+                    <Link href={`${downloadUrl.url}`} target='_blank' rel='noopener noreferrer' sx={{ textDecoration: 'none' }}>
                         <Button
                             autoFocus
                             sx={{ color: 'common.white', mr: 2, '&:hover': { color: (theme: Theme) => theme.custom.palette.red } }}
