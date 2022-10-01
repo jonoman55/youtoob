@@ -40,7 +40,7 @@ export const VideoTitle = styled(MuiTypography)<{
 }));
 
 export const VerifiedIcon = styled(MuiCheckCircle)(({ theme }) => ({
-    ml: '5px',
+    marginLeft: '5px',
     fontSize: '12px',
     color: theme.custom.palette.ytGray
 }));

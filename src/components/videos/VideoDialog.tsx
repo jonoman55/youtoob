@@ -1,7 +1,7 @@
 import React, { useMemo, forwardRef } from 'react';
-import { Box, Button, Dialog as MuiDialog, DialogActions, DialogContent, DialogContentText, DialogTitle as MuiDialogTitle, Slide, IconButton, Typography } from '@mui/material';
+import { Box, Button, Dialog as MuiDialog, DialogActions, DialogContent, DialogContentText, DialogTitle as MuiDialogTitle, Slide, IconButton, Typography, Link } from '@mui/material';
 import { TransitionProps } from '@mui/material/transitions';
-import { Close as CloseIcon } from '@mui/icons-material';
+import { Close as CloseIcon, Download as DownloadIcon } from '@mui/icons-material';
 import { styled, Theme } from '@mui/material/styles';
 
 import { appActions } from '../../reducers/appSlice';
@@ -52,12 +52,13 @@ const Transition = forwardRef(function Transition(
     return <Slide direction='up' ref={ref} {...props} />;
 });
 
+// TODO : Finish implementing getDownloadUrl and hook up to Save button
 export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDownload; }) => {
     const dispatch = useAppDispatch();
 
     const dialogOpen: boolean = useAppSelector((state) => state.app.dialogOpen);
 
-    const downloadableVideos = useMemo(() => {
+    const downloadUrls: Url[] = useMemo<Url[]>(() => {
         const urls: Url[] = videoDownload.url.filter(({ downloadable }) => downloadable);
         return urls;
     }, [videoDownload]);
@@ -66,6 +67,15 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
         dispatch(appActions.setDialogOpen(false));
         dispatch(appActions.setVideoDownload(null));
     };
+
+    // console.log(videoDownload);
+    // console.log(downloadUrls);
+
+    // console.log(videoDownload.url);
+
+    // const getDownloadUrl = useMemo(() => {
+        
+    // }, [videoDownload]);
 
     return (
         <Box component='div'>
@@ -76,10 +86,10 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
                 aria-describedby='video-download-dialog'
             >
                 <DialogTitle onClose={handleClose} id='video-download-dialog'>
-                    <Typography variant='h6'>Download Video</Typography>
+                    <Typography>Download Video</Typography>
                 </DialogTitle>
                 <DialogContent dividers sx={{ display: 'flex', width: '100%', height: 'auto', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <DialogContentText id='video-download-dialog'>
+                    <DialogContentText id='video-download-dialog' paragraph gutterBottom>
                         {videoDownload.meta.title}
                     </DialogContentText>
                     <Box
@@ -87,16 +97,25 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
                         src={videoDownload.thumb}
                         alt={videoDownload.meta.title}
                         height={150}
-                        width={150}
+                        width={225}
                     />
-                    {downloadableVideos.map((video) => (
-                        <Box>{video.attr.title}</Box>
+                    {downloadUrls.map((v: Url, idx: number) => (
+                        <React.Fragment key={idx}>
+                            <Typography component='span' sx={{ my: 2, textTransform: 'capitalize' }}>{v.attr.title}{' '} P</Typography>
+                            <Typography component='span' gutterBottom>Duration:{' '}{videoDownload.meta.duration}</Typography>
+                        </React.Fragment>
                     ))}
                 </DialogContent>
                 <DialogActions>
-                    <Button autoFocus onClick={handleClose} sx={{ color: 'common.white' }}>
-                        Save
-                    </Button>
+                    <Link component='a' href={`${videoDownload.url}`} target='_blank' rel='noopener noreferrer'>
+                        <Button
+                            autoFocus
+                            sx={{ color: 'common.white' }}
+                            startIcon={<DownloadIcon />}
+                        >
+                            Save
+                        </Button>
+                    </Link>
                 </DialogActions>
             </Dialog>
         </Box>
