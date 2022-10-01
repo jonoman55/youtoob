@@ -52,30 +52,19 @@ const Transition = forwardRef(function Transition(
     return <Slide direction='up' ref={ref} {...props} />;
 });
 
-// TODO : Finish implementing getDownloadUrl and hook up to Save button
 export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDownload; }) => {
     const dispatch = useAppDispatch();
 
     const dialogOpen: boolean = useAppSelector((state) => state.app.dialogOpen);
 
-    const downloadUrls: Url[] = useMemo<Url[]>(() => {
-        const urls: Url[] = videoDownload.url.filter(({ downloadable }) => downloadable);
-        return urls;
+    const downloadUrl: Url = useMemo<Url>(() => {
+        return videoDownload.url.filter(({ downloadable }) => downloadable).map(u => u).shift()!;
     }, [videoDownload]);
 
     const handleClose = () => {
         dispatch(appActions.setDialogOpen(false));
         dispatch(appActions.setVideoDownload(null));
     };
-
-    // console.log(videoDownload);
-    // console.log(downloadUrls);
-
-    // console.log(videoDownload.url);
-
-    // const getDownloadUrl = useMemo(() => {
-        
-    // }, [videoDownload]);
 
     return (
         <Box component='div'>
@@ -89,7 +78,7 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
                     <Typography>Download Video</Typography>
                 </DialogTitle>
                 <DialogContent dividers sx={{ display: 'flex', width: '100%', height: 'auto', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-                    <DialogContentText id='video-download-dialog' paragraph gutterBottom>
+                    <DialogContentText id='video-download-dialog' paragraph gutterBottom sx={{ textAlign: 'center' }}>
                         {videoDownload.meta.title}
                     </DialogContentText>
                     <Box
@@ -99,18 +88,14 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
                         height={150}
                         width={225}
                     />
-                    {downloadUrls.map((v: Url, idx: number) => (
-                        <React.Fragment key={idx}>
-                            <Typography component='span' sx={{ my: 2, textTransform: 'capitalize' }}>{v.attr.title}{' '} P</Typography>
-                            <Typography component='span' gutterBottom>Duration:{' '}{videoDownload.meta.duration}</Typography>
-                        </React.Fragment>
-                    ))}
+                    <Typography component='span' sx={{ my: 2, textTransform: 'capitalize' }}>{downloadUrl.attr.title}{' '} P</Typography>
+                    <Typography component='span' gutterBottom>Duration:{' '}{videoDownload.meta.duration}</Typography>
                 </DialogContent>
                 <DialogActions>
-                    <Link component='a' href={`${videoDownload.url}`} target='_blank' rel='noopener noreferrer'>
+                    <Link component='a' href={`${downloadUrl.url}`} target='_blank' rel='noopener noreferrer' sx={{ textDecoration: 'none' }}>
                         <Button
                             autoFocus
-                            sx={{ color: 'common.white' }}
+                            sx={{ color: 'common.white', mr: 2, '&:hover': { color: (theme: Theme) => theme.custom.palette.red } }}
                             startIcon={<DownloadIcon />}
                         >
                             Save
