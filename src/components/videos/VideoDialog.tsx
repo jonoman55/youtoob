@@ -57,9 +57,10 @@ export const VideoDownloadDialog = ({ videoDownload }: { videoDownload: VideoDow
 
     const dialogOpen: boolean = useAppSelector((state) => state.app.dialogOpen);
 
-    const downloadUrl: Url = useMemo<Url>(() => {
-        return videoDownload.url.filter(({ downloadable }) => downloadable).map(u => u).shift()!;
-    }, [videoDownload]);
+    const downloadUrl: Url = useMemo<Url>(
+        () => videoDownload.url.filter(({ downloadable }: Url) => downloadable).shift() as Url,
+        [videoDownload]
+    );
 
     const handleClose = () => {
         dispatch(appActions.setDialogOpen(false));
