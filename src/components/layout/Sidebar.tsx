@@ -1,9 +1,10 @@
-import { useCallback } from "react";
-import { Stack, Box, Theme } from "@mui/material";
+import { useCallback } from 'react';
+import { Stack, Box, Theme } from '@mui/material';
 
-import { appActions } from "../../reducers/appSlice";
-import { useAppDispatch } from "../../app/hooks";
-import { categories } from "../../constants";
+import { appActions } from '../../reducers/appSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { categories } from '../../constants';
+import type { Category } from '../../types';
 
 export const Sidebar = ({ selectedCategory }: { selectedCategory: string; }) => {
     const dispatch = useAppDispatch();
@@ -16,23 +17,25 @@ export const Sidebar = ({ selectedCategory }: { selectedCategory: string; }) => 
 
     return (
         <Stack
-            direction="row"
+            direction='row'
             sx={{
-                overflowY: "auto",
-                height: { sx: "auto", md: "95%" },
-                flexDirection: { md: "column" },
+                overflowY: 'auto',
+                height: { sx: 'auto', md: '95%' },
+                flexDirection: { md: 'column' },
             }}
         >
-            {categories.map((category) => (
+            {categories.map((category: Category, index: number) => (
                 <Box
                     component='button'
-                    className="category-btn"
+                    className='category-btn'
                     onClick={handleCategoryChange(category.name)}
                     sx={(theme: Theme) => ({
-                        background: category.name === selectedCategory ? theme.custom.palette.red : "none",
+                        background: category.name === selectedCategory
+                            ? theme.custom.palette.red
+                            : 'none',
                         color: theme.palette.common.white,
                     })}
-                    key={category.name}
+                    key={index}
                 >
                     <Box
                         component='span'
@@ -40,12 +43,12 @@ export const Sidebar = ({ selectedCategory }: { selectedCategory: string; }) => 
                             color: category.name === selectedCategory
                                 ? theme.palette.common.white
                                 : theme.custom.palette.red,
-                            marginRight: "15px"
+                            marginRight: '15px'
                         })}
                     >
                         {category.icon}
                     </Box>
-                    <Box component='span' sx={{ opacity: category.name === selectedCategory ? "1" : "0.8" }}>
+                    <Box component='span' sx={{ opacity: category.name === selectedCategory ? '1' : '0.8' }}>
                         {category.name}
                     </Box>
                 </Box>
