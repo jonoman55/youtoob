@@ -6,12 +6,17 @@ import { useAppDispatch } from '../../app/hooks';
 import { categories } from '../../constants';
 import type { Category } from '../../types';
 
-export const Sidebar = ({ selectedCategory }: { selectedCategory: string; }) => {
+interface SidebarProps  {
+    selectedCategory: string;
+};
+
+export const Sidebar = ({ selectedCategory }: SidebarProps) => {
     const dispatch = useAppDispatch();
 
-    const handleCategoryChange = useCallback(
-        (category: string) => () =>
-            dispatch(appActions.setSelectedCategory(category)),
+    const handleCategoryChange = useCallback<(category: string) => () => void>(
+        (category: string) => () => {
+            dispatch(appActions.setSelectedCategory(category));
+        },
         [dispatch]
     );
 

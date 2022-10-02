@@ -1,70 +1,13 @@
-import React, { useMemo, forwardRef } from 'react';
-import { Box, Button, Stack, Slide, IconButton, Typography, Link } from '@mui/material';
-import { Dialog as MuiDialog, DialogActions, DialogContent as MuiDialogContent, DialogContentText, DialogTitle as MuiDialogTitle } from '@mui/material';
-import { TransitionProps } from '@mui/material/transitions';
-import { Close as CloseIcon, Download as DownloadIcon } from '@mui/icons-material';
-import { styled, Theme } from '@mui/material/styles';
+import { useMemo } from 'react';
+import { Box, DialogActions, DialogContentText, Stack, Typography, Link } from '@mui/material';
+import { Download as DownloadIcon } from '@mui/icons-material';
 
+import { Dialog, DialogContent, DialogTitle, SaveButton, Transition } from '../styled/Dialog.styled';
 import { appActions } from '../../reducers/appSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import type { VideoDownload, Url } from '../../types';;
+import { formatQuality } from '../../helpers';
 
-// TODO : Move styled components to Video.styled.tsx
-const Dialog = styled(MuiDialog)(({ theme }) => ({
-    '& .MuiDialogContent-root': {
-        padding: theme.spacing(2),
-    },
-    '& .MuiDialogActions-root': {
-        padding: theme.spacing(1),
-    },
-}));
-
-const DialogContent = styled(MuiDialogContent)(({
-    display: 'flex',
-    width: '100%',
-    height: 'auto',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
-}));
-
-interface DialogTitleProps {
-    id: string;
-    children?: React.ReactNode;
-    onClose: () => void;
-};
-
-const DialogTitle = ({ children, onClose, ...other }: DialogTitleProps) => (
-    <MuiDialogTitle sx={{ minWidth: '250px', m: 0, p: 2 }} {...other}>
-        {children}
-        {onClose ? (
-            <IconButton
-                aria-label='close'
-                onClick={onClose}
-                sx={(theme: Theme) => ({
-                    position: 'absolute',
-                    right: 8,
-                    top: 8,
-                    color: theme.palette.common.white,
-                    '&:hover': {
-                        color: theme.custom.palette.red
-                    }
-                })}
-            >
-                <CloseIcon />
-            </IconButton>
-        ) : null}
-    </MuiDialogTitle>
-);
-
-const Transition = forwardRef(function Transition(
-    props: TransitionProps & {
-        children: React.ReactElement<any, any>;
-    },
-    ref: React.Ref<unknown>,
-) {
-    return <Slide direction='up' ref={ref} {...props} />;
-});
+import type { VideoDownload, Url } from '../../types';
 
 interface VideoDownloadDialogProps {
     videoDownload: VideoDownload;
@@ -83,14 +26,6 @@ export const VideoDownloadDialog = ({ videoDownload }: VideoDownloadDialogProps)
     const handleClose = () => {
         dispatch(appActions.setDialogOpen(false));
         dispatch(appActions.setVideoDownload(null));
-    };
-
-    const formatQuality = (duration: string): string => {
-        if (duration.includes(':')) {
-            const split = duration.split(':');
-            return split[1];
-        }
-        return duration;
     };
 
     const videoQuality: string = useMemo<string>(
@@ -123,7 +58,7 @@ export const VideoDownloadDialog = ({ videoDownload }: VideoDownloadDialogProps)
                     <Box component='div' sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}>
                         <Stack direction='row' alignItems='center'>
                             <Typography sx={{ my: 2, textTransform: 'capitalize' }}>
-                                Video Quality: {videoQuality}
+                                Video Quality:{' '}{videoQuality}
                             </Typography>
                             <Typography>p</Typography>
                         </Stack>
@@ -134,13 +69,9 @@ export const VideoDownloadDialog = ({ videoDownload }: VideoDownloadDialogProps)
                 </DialogContent>
                 <DialogActions>
                     <Link href={`${downloadUrl.url}`} target='_blank' rel='noopener noreferrer' sx={{ textDecoration: 'none' }}>
-                        <Button
-                            autoFocus
-                            sx={{ color: 'common.white', mr: 2, '&:hover': { color: (theme: Theme) => theme.custom.palette.red } }}
-                            startIcon={<DownloadIcon />}
-                        >
+                        <SaveButton autoFocus startIcon={<DownloadIcon />}>
                             Save
-                        </Button>
+                        </SaveButton>
                     </Link>
                 </DialogActions>
             </Dialog>

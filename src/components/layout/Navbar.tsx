@@ -1,17 +1,26 @@
-import { useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
-import { Box, Stack } from "@mui/material";
+import { useEffect, useCallback } from 'react';
+import { Link } from 'react-router-dom';
+import { styled, Box, Stack as MuiStack, StackProps as MuiStackProps } from '@mui/material';
 
-import { SearchBar } from "../search";
-import { appActions } from "../../reducers/appSlice";
-import { useAppDispatch } from "../../app/hooks";
-import { logo } from "../../images";
+import { SearchBar } from '../search';
+import { appActions } from '../../reducers/appSlice';
+import { useAppDispatch } from '../../app/hooks';
+import { logo } from '../../images';
+
+const Stack = styled(MuiStack)<MuiStackProps>(({ theme }) => ({
+    padding: theme.spacing(2),
+    position: 'sticky',
+    backgroundColor: theme.palette.common.black,
+    top: 0,
+    justifyContent: 'space-between',
+    alignItems: 'center'
+}));
 
 export const Navbar = () => {
     const dispatch = useAppDispatch();
 
-    const handleLastVisited = useCallback(
-        () => { dispatch(appActions.setLastVisited(Date.now())); },
+    const handleLastVisited = useCallback<() => void>(
+        () => { dispatch(appActions.setLastVisited(Date.now())) },
         [dispatch]
     );
 
@@ -21,9 +30,14 @@ export const Navbar = () => {
     );
 
     return (
-        <Stack direction="row" alignItems="center" p={2} sx={{ position: "sticky", bgcolor: "common.black", top: 0, justifyContent: "space-between" }}>
-            <Link to="/" style={{ display: "flex", alignItems: "center" }}>
-                <Box component='img' src={logo} alt="logo" height={45} />
+        <Stack direction='row'>
+            <Link to='/' style={{ display: 'flex', alignItems: 'center' }}>
+                <Box
+                    component='img'
+                    src={logo}
+                    alt='logo'
+                    height={45}
+                />
             </Link>
             <SearchBar />
         </Stack>

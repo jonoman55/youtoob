@@ -58,3 +58,16 @@ export const formatSubscriberCount = (subscriberCount: string) => {
 export const formatCount = (count: string) => {
     return parseInt(count).toLocaleString();
 };
+
+/**
+ * Format Video Quality Text
+ * @param {string} quality Video Quality String
+ * @returns Formatted Video Duration
+ */
+export const formatQuality = (quality: string): string => {
+    if (quality.includes(':')) {
+        const split = quality.split(':');
+        return split[1];
+    }
+    return quality;
+};

@@ -1,21 +1,20 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { Typography, Box, Stack, IconButton } from '@mui/material';
+import { Typography, Box, Stack } from '@mui/material';
 import { Visibility as VisibilityIcon, ThumbUp as ThumbUpIcon, Download as DownloadIcon } from '@mui/icons-material';
 import ReactPlayer from 'react-player';
 
 import { Videos } from './Videos';
 import { Spinner } from '../design';
-import { DownloadText, VerifiedIcon, VideoDetailsStack, VideoIcon, VideosBox, VideoTitle } from '../styled/Videos.styled';
+import { VideoDownloadDialog as VideoDialog } from './VideoDialog';
+import { DownloadButton, VerifiedIcon, VideoDetailsStack, VideoIcon, VideosBox, VideoTitle } from '../styled/Videos.styled';
+import { appActions } from '../../reducers/appSlice';
 import { useConvertMutation } from '../../apis/convertApi';
 import { useRelatedVideosQuery, useVideoDetailsQuery } from '../../apis/youtubeApi';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { useBreakpoints } from '../../hooks';
 
-import { Video, VideoDownload } from '../../types';
-import { appActions } from '../../reducers/appSlice';
-import { VideoDownloadDialog } from './VideoDialog';
+import type { Video, VideoDownload } from '../../types';
 
 const initialState: Video = {
     id: {
@@ -101,12 +100,17 @@ export const VideoDetails = () => {
 
     const [download, result] = useConvertMutation();
 
+    const convertIsLoading: boolean = useMemo<boolean>(
+        () => result.isLoading,
+        [result.isLoading]
+    );
+
     const handleDownloadClick = (url: string) => async () => {
         if (url) {
             try {
-                const video: VideoDownload = await download(url).unwrap();
-                if (result) {
-                    dispatch(appActions.setVideoDownload(video));
+                const videoDownload: VideoDownload = await download(url).unwrap();
+                if (result.isSuccess) {
+                    dispatch(appActions.setVideoDownload(videoDownload));
                     dispatch(appActions.setDialogOpen(true));
                 }
             } catch (error) {
@@ -140,7 +144,11 @@ export const VideoDetails = () => {
                 <Stack direction={{ xs: 'column', md: 'row' }}>
                     <Box flex={1}>
                         <Box sx={{ width: '100%', position: 'sticky', top: '86px' }}>
-                            <ReactPlayer className='react-player' url={videoLink} controls />
+                            <ReactPlayer
+                                className='react-player'
+                                url={videoLink}
+                                controls
+                            />
                             <VideoTitle variant='h5'>{title}</VideoTitle>
                             <VideoDetailsStack direction='row'>
                                 <Link to={`/channel/${channelId}`}>
@@ -150,27 +158,36 @@ export const VideoDetails = () => {
                                     </Typography>
                                 </Link>
                                 <Stack direction='row' gap='20px' alignItems='center'>
-                                    <Stack direction='row' spacing={1} sx={{ alignItems: 'center', justifyContent: 'center' }}>
-                                        <IconButton onClick={handleDownloadClick(videoLink)} sx={{ color: 'common.white' }}>
-                                            <DownloadIcon />
-                                        </IconButton>
-                                        <DownloadText variant='body1'>
-                                            Download
-                                        </DownloadText>
-                                    </Stack>
-                                    <VideoIcon count={viewCount!} icon={<VisibilityIcon />} />
-                                    <VideoIcon count={likeCount!} icon={<ThumbUpIcon />} />
+                                    <DownloadButton
+                                        size='large'
+                                        onClick={handleDownloadClick(videoLink)}
+                                        startIcon={<DownloadIcon fontSize='large' />}
+                                        loading={convertIsLoading}
+                                    >
+                                        Download
+                                    </DownloadButton>
+                                    <VideoIcon
+                                        count={viewCount!}
+                                        icon={<VisibilityIcon />}
+                                    />
+                                    <VideoIcon
+                                        count={likeCount!}
+                                        icon={<ThumbUpIcon />}
+                                    />
                                 </Stack>
                             </VideoDetailsStack>
                         </Box>
                     </Box>
                     <VideosBox py={{ md: 1, xs: 5 }}>
-                        <Videos videos={videosOnly} direction='column' />
+                        <Videos
+                            videos={videosOnly}
+                            direction='column'
+                        />
                     </VideosBox>
                 </Stack>
             </Box>
             {dialogOpen === true && videoDownload !== null && (
-                <VideoDownloadDialog
+                <VideoDialog
                     videoDownload={videoDownload}
                 />
             )}

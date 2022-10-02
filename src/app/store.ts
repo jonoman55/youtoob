@@ -51,7 +51,7 @@ const persistedReducer: Reducer<any, AnyAction> = persistReducer(persistConfig, 
 
 export const store = configureStore({
     reducer: persistedReducer,
-    middleware: gDM => gDM({
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
             ignoredActions: [
                 FLUSH,

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box as MuiBox, BoxProps as MuiBoxProps, CardContent as MuiCardContent, Stack as MuiStack, Typography as MuiTypography } from '@mui/material';
+import { Box as MuiBox, BoxProps as MuiBoxProps, CardContent as MuiCardContent,  Stack as MuiStack, Typography as MuiTypography } from '@mui/material';
+import { LoadingButton, LoadingButtonProps } from '@mui/lab';
 import { styled } from '@mui/material/styles';
 import { CheckCircle as MuiCheckCircle } from '@mui/icons-material';
 
@@ -88,4 +89,15 @@ export const DownloadText = styled(MuiTypography)<{
     fontWeight: 500,
     textTransform: 'uppercase',
     color: theme.custom.palette.ytGray,
+}));
+
+// TODO : Finish loading styles
+export const DownloadButton = styled(LoadingButton)<LoadingButtonProps>(({ theme }) => ({
+    marginLeft: theme.spacing(2),
+    '&.MuiButton-text': {
+        color: theme.custom.palette.ytGray,
+    },
+    '& .MuiButton-startIcon': {
+        color: theme.palette.common.white,
+    },
 }));

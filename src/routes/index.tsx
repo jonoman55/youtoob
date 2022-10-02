@@ -1,19 +1,17 @@
-import { lazy } from "react";
-import { BrowserRouter as Router, Routes as Switch, Route } from "react-router-dom";
-import { Box } from "@mui/material";
+import { lazy } from 'react';
+import { HashRouter as Router, Routes as Switch, Route } from 'react-router-dom';
 
-import { Navbar } from "../components";
+import { Container, Navbar } from '../components';
+import type { Lazy } from '../types';
 
-import type { Lazy } from "../types";
-
-const Feed: Lazy = lazy(() => import("../pages/FeedPage"));
-const VideoDetails: Lazy = lazy(() => import("../pages/VideoDetailsPage"));
-const ChannelDetails: Lazy = lazy(() => import("../pages/ChannelDetailsPage"));
-const SearchFeed: Lazy = lazy(() => import("../pages/SearchFeedPage"));
+const Feed: Lazy = lazy(() => import('../pages/FeedPage'));
+const VideoDetails: Lazy = lazy(() => import('../pages/VideoDetailsPage'));
+const ChannelDetails: Lazy = lazy(() => import('../pages/ChannelDetailsPage'));
+const SearchFeed: Lazy = lazy(() => import('../pages/SearchFeedPage'));
 
 const Routes = () => (
     <Router>
-        <Box sx={{ bgcolor: 'common.black' }}>
+        <Container>
             <Navbar />
             <Switch>
                 <Route path='/' element={<Feed />} />
@@ -21,7 +19,7 @@ const Routes = () => (
                 <Route path='/channel/:id' element={<ChannelDetails />} />
                 <Route path='/search/:searchTerm' element={<SearchFeed />} />
             </Switch>
-        </Box>
+        </Container>
     </Router>
 );
 
