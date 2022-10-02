@@ -16,6 +16,7 @@
 - [ ] Filter out any non-US videos
 - [ ] Fix Channel image component
 - [ ] Convert all Stacks to Grids and fix Card widths in mobile
+- [ ] Convert all css styles to MUI styles
 - [ ] Update Copyright Footer with link to my GitHub
 - [ ] Clean up code and any unused files
 - [ ] Deploy to Netlify
